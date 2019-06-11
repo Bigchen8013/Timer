@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>秒表计时器</title>
+  <style>
+  
+  </style>
+  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+  <script>
+      $(document).ready(function(){
+        var hour,minute,second;//时 分 秒
+        hour=minute=second=0;//初始化
+        var millisecond=0;
+        var int;
+        var a=1;
+        var i=0;  //全局变量，用来控制开关
+
+        $("#Start").click(function(){
+            i++;
+            if(i%2!=0){
+                int=setInterval(timer,50);
+                $("#Start").val("暂停");
+            }
+            else{
+                window.clearInterval(int);
+                $("#Start").val("开始");
+            }
+        });
+
+        $("#Count").click(function(){
+            
+            var ss=hour+':'+minute+':'+second+':'+millisecond;
+            $("#countArea").append(ss+"<br>");
+            a++;
+        });
+
+        $("#Reset").click(function(){
+            window.clearInterval(int);
+            millisecond=hour=minute=second=0;
+            a=1;
+            i=0;
+            $("#timetext").val("00:00:00:000");
+            document.getElementById("countArea").innerHTML = "<p>计数区域</p><br>";
+        });
+
+        function timer()//计时
+        {
+            millisecond=millisecond+50;
+            if(millisecond>=1000)
+            {
+                millisecond=0;
+                second=second+1;
+            }
+            if(second>=60)
+            {
+                second=0;
+                minute=minute+1;
+            }
+        
+            if(minute>=60)
+            {
+                minute=0;
+                hour=hour+1;
+            }
+            $("#timetext").val(hour+':'+minute+':'+second+':'+millisecond);
+        }
+
+      });
+    
+  </script>
+</head>
+<body>
+
+<div style="text-align: center;padding-top:100px" >
+    
+    <input type="text" id="timetext" value="00:00:00"><br>
+
+    <div class="buttonStye" style="margin-top: 25px">
+        <input type="button" id="Start" value="开始">
+        <button id="Count" >计次</button> 
+        <button id="Reset" >重置</button>
+    </div>
+
+    <div id="countArea">
+        <p>计次区域</p><br>
+    </div>
+
+</div>
+</body>
+</html>
